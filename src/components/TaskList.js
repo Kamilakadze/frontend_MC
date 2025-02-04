@@ -1,50 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import TaskItem from './TaskItem';
+import styles from '../styles/TaskList.module.css';
 
 const TaskList = () => {
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
 
-    // Загружаем задачи из localStorage при первом рендере
     useEffect(() => {
         const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
         setTasks(savedTasks);
     }, []);
 
-    // Сохраняем задачи в localStorage при каждом изменении списка задач
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
 
-    // Добавление новой задачи
     const addTask = () => {
-        if (!taskInput.trim()) return; // Проверяем, чтобы поле ввода не было пустым
+        if (!taskInput.trim()) return;
         const newTask = { id: Date.now(), title: taskInput };
         setTasks((prevTasks) => [...prevTasks, newTask]);
-        setTaskInput(''); // Очищаем поле ввода после добавления
+        setTaskInput('');
     };
 
-    // Удаление задачи
     const removeTask = (id) => {
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     };
 
+    const editTask = (id, newTitle) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+                task.id === id ? { ...task, title: newTitle } : task
+            )
+        );
+    };
+
     return (
-        <div className="task-list">
-            <div className="task-input-container">
+        <div className={styles.taskList}>
+            <div className={styles.inputContainer}>
                 <input
                     type="text"
                     placeholder="Enter a new task"
                     value={taskInput}
-                    onChange={(e) => setTaskInput(e.target.value)} // Обновляем значение ввода
-                    className="task-input"
+                    onChange={(e) => setTaskInput(e.target.value)}
+                    className={styles.taskInput}
                 />
-                <button className="add-task-btn" onClick={addTask}>
-                    Add Task
-                </button>
+                <button onClick={addTask}>Add Task</button>
             </div>
             {tasks.map((task) => (
-                <TaskItem key={task.id} task={task} removeTask={removeTask} />
+                <TaskItem key={task.id} task={task} removeTask={removeTask} editTask={editTask} />
             ))}
         </div>
     );
