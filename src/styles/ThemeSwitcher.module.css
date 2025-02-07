@@ -1,14 +1,14 @@
 .themeSwitcher {
     position: absolute;
-    top: 10px;
-    right: 50px;
+    top: 30px;
+    right: 15px;
     background: none;
     border: none;
     cursor: pointer;
     font-size: 24px; /* Размер иконки */
-    color: #ffcc00; /* Цвет */
+    color: #8163db; /* Цвет */
     transition: color 0.3s;
 }
 .themeSwitcher:hover {
-    color: #ff9900; /* Цвет при наведении */
+    color: #be90ff; /* Цвет при наведении */
 }

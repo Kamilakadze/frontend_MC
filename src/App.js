@@ -29,7 +29,7 @@ const App = () => {
             <div className={styles.headerContainer}>
                 <ThemeSwitcher className={styles.themeButton} />
                 <div className={styles.headerContent}>
-                    <h1 className={styles.title}>ToDo List</h1>
+                    <h1 className={styles.title}>PomodoList</h1>
                 </div>
             </div>
 

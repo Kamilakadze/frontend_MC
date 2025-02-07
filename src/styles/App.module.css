@@ -1,12 +1,12 @@
 /* Общий контейнер */
 .appContainer {
-  background-color: #f4f4f4;
+  background-color: #f0fbfe;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
 }
 
 /* Контейнер для таймера и туду-листа */
@@ -29,7 +29,7 @@
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid #ff6347;
+  border: 2px solid #4682b4;
 }
 
 /* Туду-лист справа */
@@ -49,15 +49,17 @@
 .headerContainer {
   text-align: center;
   padding: 15px;
-  background-color: #e69982;
+  background-color: #2d0f87;
   color: white;
   width: 100%;
-  border-bottom: 5px solid #ff6347;
+  border-bottom: 5px solid #1361a1;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+
 }
 
 /* Кнопки навигации */
@@ -68,7 +70,7 @@
 }
 
 .navButton {
-  background-color: #9a47ff;
+  background-color: #2d0f87;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -80,7 +82,7 @@
 }
 
 .navButton:hover {
-  background-color: #df53e7;
+  background-color: #3f80f1;
   border: 2px solid white;
 }
 
