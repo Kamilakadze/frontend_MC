@@ -35,7 +35,7 @@ const TaskList = () => {
     };
 
     return (
-        <div className={styles.taskList}>
+        <div className={styles.taskListContainer}>
             <div className={styles.inputContainer}>
                 <input
                     type="text"
@@ -44,11 +44,13 @@ const TaskList = () => {
                     onChange={(e) => setTaskInput(e.target.value)}
                     className={styles.taskInput}
                 />
-                <button onClick={addTask}>Add Task</button>
+                <button onClick={addTask} className={styles.addButton}>Add Task</button>
             </div>
-            {tasks.map((task) => (
-                <TaskItem key={task.id} task={task} removeTask={removeTask} editTask={editTask} />
-            ))}
+            <div className={styles.taskList}>
+                {tasks.map((task) => (
+                    <TaskItem key={task.id} task={task} removeTask={removeTask} editTask={editTask} />
+                ))}
+            </div>
         </div>
     );
 };

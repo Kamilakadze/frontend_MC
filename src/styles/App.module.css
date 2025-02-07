@@ -1,57 +1,134 @@
+/* Общий контейнер */
 .appContainer {
-  background: url('https://example.com/lightning-race-theme.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background-color: #f4f4f4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
   padding: 20px;
+  font-family: 'Arial', sans-serif;
 }
 
-.header {
+/* Контейнер для таймера и туду-листа */
+.layoutContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 1200px;
+  margin-top: 40px;
+  gap: 40px;
+}
+
+/* Таймер слева */
+.timerSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ff6347;
+}
+
+/* Туду-лист справа */
+.taskSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #4682b4;
+}
+
+/* Заголовок */
+.headerContainer {
   text-align: center;
-  color: #2d3436;
+  padding: 15px;
+  background-color: #e69982;
+  color: white;
+  width: 100%;
+  border-bottom: 5px solid #ff6347;
 }
 
-.monsterTitle {
-  font-size: 3rem;
+.title {
+  font-size: 2rem;
   font-weight: bold;
-  color: #2d3436;
 }
 
-.monsterTagline {
-  font-size: 1.5rem;
-  color: #6c5ce7;
-}
-
+/* Кнопки навигации */
 .navButtons {
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .navButton {
-  background-color: #ff5733;
+  background-color: #9a47ff;
   border: none;
   padding: 10px 20px;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: bold;
+  border-radius: 5px;
   color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: 0.3s ease-in-out;
+  border: 2px solid transparent;
 }
 
 .navButton:hover {
-  background-color: #c70039;
+  background-color: #df53e7;
+  border: 2px solid white;
 }
 
-.placeholder {
-  font-size: 1.5rem;
-  color: #fff;
-  text-align: center;
-  margin-top: 20px;
+/* Стили для задач */
+.taskItem {
+  width: 90%;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #72a4ce;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 🔹 АДАПТИВНОСТЬ 🔹 */
+@media (max-width: 900px) {
+  .layoutContainer {
+    flex-direction: column; /* Размещаем таймер и туду-лист друг под другом */
+    align-items: center;
+    width: 100%;
+  }
+
+  .timerSection,
+  .taskSection {
+    width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.5rem; /* Уменьшаем заголовок */
+  }
+
+  .navButtons {
+    flex-direction: column; /* Кнопки друг под другом */
+    gap: 5px;
+  }
+
+  .navButton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .taskItem {
+    flex-direction: column; /* Кнопки в туду-листе под текстом */
+    align-items: flex-start;
+  }
 }

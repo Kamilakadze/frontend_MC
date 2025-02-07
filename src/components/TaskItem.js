@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import styles from '../styles/TaskItem.module.css';
 
 const TaskItem = ({ task, removeTask, editTask }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -12,18 +14,25 @@ const TaskItem = ({ task, removeTask, editTask }) => {
     };
 
     return (
-        <div className="task-item">
+        <div className={styles.taskItem}>
             {isEditing ? (
                 <input
                     type="text"
                     value={editedTitle}
                     onChange={(e) => setEditedTitle(e.target.value)}
+                    className={styles.taskInput}
                 />
             ) : (
-                <span>{task.title}</span>
+                <span className={styles.taskText}>{task.title}</span>
             )}
-            <button onClick={handleEdit}>{isEditing ? 'Save' : 'Edit'}</button>
-            <button onClick={() => removeTask(task.id)}>Delete</button>
+            <div className={styles.taskActions}>
+                <button onClick={handleEdit}>
+                    <FaEdit />
+                </button>
+                <button onClick={() => removeTask(task.id)}>
+                    <FaTrash />
+                </button>
+            </div>
         </div>
     );
 };

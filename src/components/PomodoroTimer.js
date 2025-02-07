@@ -1,74 +1,53 @@
-import React, { Component } from 'react';
-import styles from '../styles/PomodoroTimer.module.css';
+import React, { useState, useEffect } from "react";
+import { FaPlay, FaPause, FaRedo } from "react-icons/fa";
+import styles from "../styles/PomodoroTimer.module.css";
 
-class PomodoroTimer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            time: 25 * 60,
-            isWorking: true,
-            isRunning: false,
-        };
-        this.timer = null;
-    }
+const PomodoroTimer = ({ initialTime }) => {
+    const [time, setTime] = useState(initialTime);
+    const [isRunning, setIsRunning] = useState(false);
 
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
+    useEffect(() => {
+        setTime(initialTime);
+        setIsRunning(false);
+    }, [initialTime]);
 
-    startTimer = () => {
-        if (!this.state.isRunning) {
-            this.timer = setInterval(() => {
-                this.setState((prevState) => {
-                    if (prevState.time === 0) {
-                        this.switchMode();
-                        return { time: prevState.isWorking ? 5 * 60 : 25 * 60 };
-                    }
-                    return { time: prevState.time - 1 };
-                });
+    useEffect(() => {
+        let timer;
+        if (isRunning) {
+            timer = setInterval(() => {
+                setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
             }, 1000);
-            this.setState({ isRunning: true });
+        } else {
+            clearInterval(timer);
         }
+        return () => clearInterval(timer);
+    }, [isRunning]);
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
     };
 
-    stopTimer = () => {
-        clearInterval(this.timer);
-        this.setState({ isRunning: false });
-    };
-
-    switchMode = () => {
-        this.setState((prevState) => ({
-            isWorking: !prevState.isWorking,
-            time: prevState.isWorking ? 5 * 60 : 25 * 60,
-        }));
-    };
-
-    resetTimer = () => {
-        this.stopTimer();
-        this.setState({
-            time: 25 * 60,
-            isWorking: true,
-            isRunning: false,
-        });
-    };
-
-    formatTime = (time) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    };
-
-    render() {
-        return (
-            <div className={styles.pomodoroTimer}>
-                <h2>{this.state.isWorking ? 'Work Time' : 'Break Time'}</h2>
-                <div className={styles.timer}>{this.formatTime(this.state.time)}</div>
-                <button onClick={this.startTimer} disabled={this.state.isRunning}>Start</button>
-                <button onClick={this.stopTimer} disabled={!this.state.isRunning}>Stop</button>
-                <button onClick={this.resetTimer}>Reset</button>
+    return (
+        <div className={styles.timerContainer}>
+            <h2 className={styles.timerTitle}>
+                {initialTime === 25 * 60 ? "Work Time" : initialTime === 5 * 60 ? "Short Break" : "Long Break"}
+            </h2>
+            <div className={styles.timerDisplay}>{formatTime(time)}</div>
+            <div className={styles.timerControls}>
+                <button onClick={() => setIsRunning(true)} disabled={isRunning}>
+                    <FaPlay />
+                </button>
+                <button onClick={() => setIsRunning(false)} disabled={!isRunning}>
+                    <FaPause />
+                </button>
+                <button onClick={() => setTime(initialTime)}>
+                    <FaRedo />
+                </button>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default PomodoroTimer;
