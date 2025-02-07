@@ -1,53 +1,85 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import { FaPlay, FaPause, FaRedo } from "react-icons/fa";
 import styles from "../styles/PomodoroTimer.module.css";
 
-const PomodoroTimer = ({ initialTime }) => {
-    const [time, setTime] = useState(initialTime);
-    const [isRunning, setIsRunning] = useState(false);
+class PomodoroTimer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            time: props.initialTime,
+            isRunning: false
+        };
+        this.timer = null;
+    }
 
-    useEffect(() => {
-        setTime(initialTime);
-        setIsRunning(false);
-    }, [initialTime]);
-
-    useEffect(() => {
-        let timer;
-        if (isRunning) {
-            timer = setInterval(() => {
-                setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-            }, 1000);
-        } else {
-            clearInterval(timer);
+    // Обновляем таймер при изменении initialTime (например, переключение "Work"/"Break")
+    componentDidUpdate(prevProps) {
+        if (prevProps.initialTime !== this.props.initialTime) {
+            this.setState({ time: this.props.initialTime, isRunning: false });
+            clearInterval(this.timer);
         }
-        return () => clearInterval(timer);
-    }, [isRunning]);
+    }
 
-    const formatTime = (seconds) => {
+    // Очистка интервала при размонтировании компонента
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+    // Запуск таймера
+    startTimer = () => {
+        if (!this.state.isRunning) {
+            this.setState({ isRunning: true });
+            this.timer = setInterval(() => {
+                this.setState((prevState) => ({
+                    time: prevState.time > 0 ? prevState.time - 1 : 0
+                }));
+            }, 1000);
+        }
+    };
+
+    // Остановка таймера
+    stopTimer = () => {
+        this.setState({ isRunning: false });
+        clearInterval(this.timer);
+    };
+
+    // Сброс таймера
+    resetTimer = () => {
+        this.setState({ time: this.props.initialTime, isRunning: false });
+        clearInterval(this.timer);
+    };
+
+    // Форматирование времени (MM:SS)
+    formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
     };
 
-    return (
-        <div className={styles.timerContainer}>
-            <h2 className={styles.timerTitle}>
-                {initialTime === 25 * 60 ? "Work Time" : initialTime === 5 * 60 ? "Short Break" : "Long Break"}
-            </h2>
-            <div className={styles.timerDisplay}>{formatTime(time)}</div>
-            <div className={styles.timerControls}>
-                <button onClick={() => setIsRunning(true)} disabled={isRunning}>
-                    <FaPlay />
-                </button>
-                <button onClick={() => setIsRunning(false)} disabled={!isRunning}>
-                    <FaPause />
-                </button>
-                <button onClick={() => setTime(initialTime)}>
-                    <FaRedo />
-                </button>
+    render() {
+        const { time, isRunning } = this.state;
+        const { initialTime } = this.props;
+
+        return (
+            <div className={styles.timerContainer}>
+                <h2 className={styles.timerTitle}>
+                    {initialTime === 25 * 60 ? "Work Time" : initialTime === 5 * 60 ? "Short Break" : "Long Break"}
+                </h2>
+                <div className={styles.timerDisplay}>{this.formatTime(time)}</div>
+                <div className={styles.timerControls}>
+                    <button onClick={this.startTimer} disabled={isRunning}>
+                        <FaPlay />
+                    </button>
+                    <button onClick={this.stopTimer} disabled={!isRunning}>
+                        <FaPause />
+                    </button>
+                    <button onClick={this.resetTimer}>
+                        <FaRedo />
+                    </button>
+                </div>
             </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
 export default PomodoroTimer;

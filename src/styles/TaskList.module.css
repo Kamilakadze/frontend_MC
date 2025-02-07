@@ -38,3 +38,77 @@
     flex-direction: column;
     gap: 10px;
 }
+
+/* 📌 Поле ввода при редактировании */
+.taskEditInput {
+    flex: 1;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* 📌 Кнопка "Save" */
+.saveButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.saveButton:hover {
+    background-color: #218838;
+}
+
+/* 📌 Кнопка "Cancel" */
+.cancelButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.cancelButton:hover {
+    background-color: #c82333;
+}
+
+/* 🔍 Контейнер для поиска */
+.searchContainer {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 🔍 Поле ввода поиска */
+.searchInput {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* 🔄 Кнопка переключения между полем ввода и поиска */
+.toggleButton {
+    background-color: #e3e3e3;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.toggleButton:hover {
+    background-color: #ccc;
+}
