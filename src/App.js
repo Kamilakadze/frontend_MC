@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState, useEffect } from "react"; 
 import ReactDOM from "react-dom/client";
 import PomodoroTimer from "./components/PomodoroTimer";
 import TaskList from "./components/TaskList";
@@ -9,31 +9,40 @@ const App = () => {
     const [activeSection, setActiveSection] = useState("pomodoro");
     const [timerDuration, setTimerDuration] = useState(25 * 60);
 
+    // 🌙 Тема: загружаем из localStorage
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || "light";
+    });
+
+    useEffect(() => {
+        document.body.classList.remove("light", "dark");
+        document.body.classList.add(theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    };
+
     const handleSectionChange = (section) => {
         let newDuration;
-        
-        if (section === "pomodoro") {
-            newDuration = 25 * 60;
-        } else if (section === "shortBreak") {
-            newDuration = 5 * 60;
-        } else if (section === "longBreak") {
-            newDuration = 15 * 60;
-        }
-        
+        if (section === "pomodoro") newDuration = 25 * 60;
+        else if (section === "shortBreak") newDuration = 5 * 60;
+        else if (section === "longBreak") newDuration = 15 * 60;
+
         setActiveSection(section);
         setTimerDuration(newDuration);
     };
 
     return (
-        <div className={styles.appContainer}>
+        <div className={`${styles.appContainer} ${theme === "dark" ? styles.dark : ""}`}>
             <div className={styles.headerContainer}>
-                <ThemeSwitcher className={styles.themeButton} />
+                <ThemeSwitcher toggleTheme={toggleTheme} theme={theme} />
                 <div className={styles.headerContent}>
                     <h1 className={styles.title}>PomodoList</h1>
                 </div>
             </div>
 
-            {/* Контейнер для расположения таймера слева, задач справа */}
             <div className={styles.layoutContainer}>
                 <div className={styles.timerSection}>
                     <div className={styles.navButtons}>
@@ -41,7 +50,7 @@ const App = () => {
                         <button className={styles.navButton} onClick={() => handleSectionChange("shortBreak")}>Short Break</button>
                         <button className={styles.navButton} onClick={() => handleSectionChange("longBreak")}>Long Break</button>
                     </div>
-                    <PomodoroTimer key={activeSection} initialTime={timerDuration} />
+                    <PomodoroTimer initialTime={timerDuration} />
                 </div>
 
                 <div className={styles.taskSection}>

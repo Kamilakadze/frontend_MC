@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* 🔧 Гарантируем, что стили работают */
+body.dark * {
+  color: white !important;
+  background-color: #121212 !important;
+}
+
+/* ✅ Фикс для контейнера */
+body.dark .appContainer {
+  background-color: #121212 !important;
+}
+
+/* ✅ Фикс для заголовка */
+body.dark .headerContainer {
+  background-color: #1e1e1e !important;
+  border-bottom: 5px solid #333 !important;
+}
+
+/* ✅ Фикс для таймера и списка задач */
+body.dark .taskSection, 
+body.dark .timerSection {
+  background: #1e1e1e !important;
+  border-color: #333 !important;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1) !important;
+}
